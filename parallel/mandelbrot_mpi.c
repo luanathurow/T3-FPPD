@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define uchar unsigned char
 
@@ -13,7 +14,7 @@
 #define I_MAX 1.0
 #define I_MIN -I_MAX
 
-#define MAX_ITER 60000
+#define MAX_ITER 20000
 
 typedef struct {
     uchar r;
@@ -119,8 +120,9 @@ void slave(int workers, int rank, Color* palette){
 
 
 int main(int argc, char* argv[]){
-
     int size, rank;
+
+    clock_t start = clock();
 
     MPI_Init(&argc, &argv);
     MPI_Comm_size( MPI_COMM_WORLD, &size);
@@ -132,6 +134,12 @@ int main(int argc, char* argv[]){
         master(size, palette);
     }else{
         slave(size, rank, palette);
+    }
+
+    clock_t end = clock();
+    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    if (rank == 0) {
+        printf("Execution time: %f seconds\n", cpu_time_used);
     }
 
     MPI_Finalize();

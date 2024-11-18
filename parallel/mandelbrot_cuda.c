@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define uchar unsigned char
 
@@ -12,7 +13,7 @@
 #define I_MAX 1.0
 #define I_MIN -I_MAX
 
-#define MAX_ITER 60000
+#define MAX_ITER 20000
 
 typedef struct {
     uchar r;
@@ -69,6 +70,7 @@ Color mandelbrot(int px, int py, Color* palette){
 
 
 int main(){
+    clock_t start = clock();
     uchar (*colors)[X][3] = malloc(sizeof(uchar[Y][X][3]));
     Color* palette = make_palette(MAX_ITER);
 
@@ -92,6 +94,10 @@ int main(){
         }
     }
     fclose(fout);
+
+    clock_t end = clock();
+    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Execution time: %f seconds\n", cpu_time_used);
 }
 
 
