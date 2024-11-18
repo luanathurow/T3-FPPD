@@ -74,7 +74,7 @@ int main(){
     uchar (*colors)[X][3] = malloc(sizeof(uchar[Y][X][3]));
     Color* palette = make_palette(MAX_ITER);
 
-    #pragma omp parallel for
+    #pragma omp parallel for schedule(dynamic)
     for(int Py = 0; Py < Y; Py++){
         for(int Px = 0; Px < X; Px++){
             Color c = mandelbrot(Px, Py, palette);
