@@ -11,16 +11,28 @@ Mandelbrot fractals are a class of mathematical objects that arise from the iter
 This simple recursive formula gives rise to patterns that exhibit self-similarity, meaning smaller parts of the fractal resemble the whole. Mandelbrot fractals are not only visually captivating but also provide deep insights into chaos theory, complex dynamics, and mathematical beauty.
 
 
-## Sequential Implementation:
+## Sequential Implementation
 
-Images are generated in .ppm format and stored in the `./output` directory.
 
 ```bash
 gcc mandelbrot.c -o mandelbrot_seq -lm
 srun --nodes=1 --ntasks=1 ./mandelbrot_seq
 ```
 
+Images are generated in .ppm format and stored in the `./output` directory. You can open them directly with compatible viewers using a command like:
+
+```bash
+open output/ms.ppm
+```
+
+Alternatively, convert them to other formats (e.g., .png) using ImageMagick:
+
+```bash
+convert output/ms.ppm output/ms.png
+```
+
 ![mandelbrot](https://github.com/mvneves/parallel-mandelbrot/raw/master/output/readme.png)
+
 
 ## Parallel Implementation
 
