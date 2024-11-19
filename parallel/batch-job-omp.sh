@@ -5,6 +5,7 @@
 #SBATCH --cpus-per-task=16          # Max CPUs available for testing
 #SBATCH --time=01:00:00             # Max total job runtime
 #SBATCH --output=output_%j.log      # Log file (one for the whole job, %j is the job ID)
+#SBATCH --exclusive                 # Allocate the node exclusively (comment out for shared access)
 ##SBATCH --mail-type=ALL             # Send email for all job events (start, end, fail)
 ##SBATCH --mail-user=example@edu.pucrs.br # Email address for notifications
 
