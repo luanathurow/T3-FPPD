@@ -102,6 +102,7 @@ void master(int workers, Color* palette){
         }
     }
     fclose(fout);
+    free(recv);
 }
 
 void slave(int workers, int rank, Color* palette){
@@ -143,6 +144,7 @@ int main(int argc, char* argv[]){
     }
 
     MPI_Finalize();
+    free(palette);
     return 0;
 }
 
