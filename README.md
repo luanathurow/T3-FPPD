@@ -62,6 +62,10 @@ Explanation:
 - --nodes=2: Allocates two nodes.
 - --ntasks=16: Executes 16 tasks (process), 8 per node.
 
+or as batch job
+```bash
+sbatch parallel/batch-job-omp.sh
+```
 
 Demonstration of set rendered in parallel
 ![mandelbrot](https://github.com/mvneves/parallel-mandelbrot/raw/master/parallel/parallel.gif)
