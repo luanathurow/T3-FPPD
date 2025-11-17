@@ -11,11 +11,22 @@ Mandelbrot fractals are a class of mathematical objects that arise from the iter
 This simple recursive formula gives rise to patterns that exhibit self-similarity, meaning smaller parts of the fractal resemble the whole. Mandelbrot fractals are not only visually captivating but also provide deep insights into chaos theory, complex dynamics, and mathematical beauty.
 
 
+## Repository Structure
+
+```
+.
+├── mandelbrot_seq.c       # Sequential implementation
+├── mandelbrot_mpi.c       # MPI parallel implementation
+├── batch-job-mpi.sh       # SLURM batch script for MPI
+├── output/                # Generated images directory
+└── README.md
+```
+
 ## Sequential Implementation
 
 
 ```bash
-gcc mandelbrot.c -o mandelbrot_seq -lm
+gcc mandelbrot_seq.c -o mandelbrot_seq -lm
 srun --nodes=1 --ntasks=1 ./mandelbrot_seq
 ```
 
@@ -31,30 +42,13 @@ Alternatively, convert them to other formats (e.g., .png) using ImageMagick:
 convert output/ms.ppm output/ms.png
 ```
 
-![mandelbrot](https://github.com/mvneves/parallel-mandelbrot/raw/master/output/readme.png)
+![mandelbrot](https://github.com/mvneves/parallel-mandelbrot-mpi/raw/master/output/readme.png)
 
 
-## Parallel Implementation
+## Parallel Implementation with MPI
 
-OpenMP:
 ```bash
-gcc parallel/mandelbrot_openmp.c -o mandelbrot_omp -fopenmp -lm
-srun --nodes=1 --ntasks=1 --cpus-per-task=8 ./mandelbrot_omp
-```
-
-Explanation:
-- --nodes=1: Allocates one node.
-- --ntasks=1: Executes a single task (process).
-- --cpus-per-task=8: Allocates 8 cores for the task.
-
-or as batch job
-```bash
-sbatch parallel/batch-job-omp.sh
-```
-
-MPI:
-```bash
-mpicc parallel/mandelbrot_mpi.c -o mandelbrot_mpi -lm
+mpicc mandelbrot_mpi.c -o mandelbrot_mpi -lm
 srun --nodes=2 --ntasks=16 mandelbrot_mpi
 ```
 
@@ -64,63 +58,6 @@ Explanation:
 
 or as batch job
 ```bash
-sbatch parallel/batch-job-mpi.sh
+sbatch batch-job-mpi.sh
 ```
-
-Demonstration of set rendered in parallel
-![mandelbrot](https://github.com/mvneves/parallel-mandelbrot/raw/master/parallel/parallel.gif)
-
-
-## Other Variations
-
-### Iterations
-looks nice
-
-```bash
-mpicc iters/mandelbrot.c -o mandelbrot_iters -lm
-srun --nodes=2 --ntasks=16 mandelbrot_iters
-```
-
-or as batch job
-```bash
-mpicc iters/mandelbrot.c -o iters/a.out -lm -Ofast 
-sbatch iters/iter.sh
-```
-
-![mandelbrot](https://github.com/mvneves/parallel-mandelbrot/blob/master/iters/output.gif)
-
-### Multibrot
-variation of conventional mandelbrot equation
-![Equation](https://latex.codecogs.com/png.latex?z_{n%2B1}%20=%20z_n^x%20+%20c)
-where X varies.
-
-in `multibrot/multibrot.c` set `MIN_POWER` and `MAX_POWER` to set range for X 
-
-```bash
-mpicc multibrot/multibrot.c -o multibrot -lm -Ofast
-srun --nodes=2 --ntasks=16 multibrot
-```
-
-or as batch job
-```bash
-mpicc multibrot/multibrot.c -o multibrot/a.out -lm -Ofast
-sbatch multibrot/multibrot.sh
-```
-
-[multibrot](https://github.com/mvneves/parallel-mandelbrot/blob/master/multibrot/output/output.mp4)
-
-### Zoom (WIP)
-hands down the coolest part
-
-```bash
-mpicc zoom/mandelbrot.c -o mandelbrot_zoom -lm
-srun --nodes=2 --ntasks=16 mandelbrot_zoom
-```
-or batch job
-```bash
-mpicc zoom/mandelbrot.c -o zoom/a.out -lm -Ofast
-sbatch zoom/zoom.sh
-```
-
-![mandelbrot-zoom](https://github.com/mvneves/parallel-mandelbrot/blob/master/zoom/zoom.gif)
 

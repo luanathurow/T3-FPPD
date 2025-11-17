@@ -11,10 +11,10 @@
 ##SBATCH --mail-user=example@edu.pucrs.br    # Email address for notifications
 
 # Dynamically set working directory
-WORKDIR="/home/$USER/parallel-mandelbrot"
+WORKDIR="/home/$USER/parallel-mandelbrot-mpi"
 
 # Compile code
-mpicc parallel/mandelbrot_mpi.c -o mandelbrot_mpi -lm
+mpicc mandelbrot_mpi.c -o mandelbrot_mpi -lm
 
 # Run test cases
 processes=16
